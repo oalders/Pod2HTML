@@ -29,7 +29,7 @@ sub convert {
     die $res->status_line unless $res->is_success;
     my $pod = $res->content;
 
-    my $parser = Pod::Simple::XHTML->new();
+    my $parser = MetaCPAN::Pod::XHTML->new();
 
     $parser->index( 1 );
     $parser->html_header( '' );
@@ -44,7 +44,7 @@ sub convert {
 
     die "no content" if !$parser->content_seen;
 
-    return dump( $html );
+    return $html;
 
 }
 

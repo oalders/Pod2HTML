@@ -6,9 +6,6 @@ extends 'Pod::Simple::XHTML';
 
 use Modern::Perl;
 use Data::Dump qw( dump );
-use HTML::Entities;
-use IO::File;
-use Path::Class::File;
 
 sub start_L {
     my ( $self, $flags ) = @_;

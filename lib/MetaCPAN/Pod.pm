@@ -32,7 +32,7 @@ sub convert {
 
     my $html = "";
     $parser->output_string( \$html );
-    $parser->parse_string_document( \$pod );
+    $parser->parse_string_document( $pod );
     
     die "no content" if !$parser->content_seen;
     

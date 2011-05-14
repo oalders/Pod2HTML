@@ -1,9 +1,7 @@
 package Pod2HTML;
 use Dancer ':syntax';
-use Data::Dump qw( dump );
-use Furl;
+
 use MetaCPAN::Pod;
-use MetaCPAN::Pod::XHTML;
 
 our $VERSION = '0.1';
 

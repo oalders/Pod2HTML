@@ -4,7 +4,6 @@ use Moose;
 
 extends 'Pod::Simple::XHTML';
 
-use Modern::Perl;
 use Data::Dump qw( dump );
 
 sub start_L {
@@ -24,9 +23,7 @@ sub start_L {
     $self->{'scratch'} .= qq[<a href="$url"$class>];
 }
 
-sub start_Verbatim {
-
-}
+sub start_Verbatim { }
 
 sub end_Verbatim {
 

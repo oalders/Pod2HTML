@@ -8,6 +8,6 @@ new_ok('MetaCPAN::Pod');
 
 my $pod = MetaCPAN::Pod->new;
     
-diag( $pod->convert('Dancer') );
+diag( $pod->convert('Plack::Middleware::HTMLify') );
 
 done_testing();

@@ -1,6 +1,7 @@
 package MetaCPAN::Pod;
 
 use Moose;
+
 use Data::Dump qw( dump );
 use Furl;
 use JSON;
@@ -22,10 +23,13 @@ sub convert {
 
     my $module = from_json( $res->content );
 
-    $res
-        = $furl->get(
-        "http://api.beta.metacpan.org/source/$module->{author}/$module->{release}/$module->{path}"
-        );
+    $res = $furl->get(
+        sprintf(
+            "http://api.beta.metacpan.org/source/%s/%s/%s",
+            $module->{author}, $module->{release}, $module->{path}
+        )
+    );
+    
     die $res->status_line unless $res->is_success;
     my $pod = $res->content;
 

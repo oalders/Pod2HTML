@@ -1,0 +1,3 @@
+plackup bin/app.pl
+
+http://localhost:5000/pod/DBIx::Class

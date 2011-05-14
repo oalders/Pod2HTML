@@ -8,6 +8,6 @@ new_ok('MetaCPAN::Pod');
 
 my $pod = MetaCPAN::Pod->new;
     
-diag( $pod->convert('DBIx::Class') );
+diag( $pod->convert('Dancer') );
 
 done_testing();

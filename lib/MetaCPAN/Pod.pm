@@ -17,10 +17,18 @@ sub convert {
     );
 
     my $res = $furl->get( "http://api.beta.metacpan.org/module/$name" );
+
     die $res->status_line unless $res->is_success;
 
     my $module = from_json( $res->content );
-    my $pod = $module->{pod};
+
+    $res
+        = $furl->get(
+        "http://api.beta.metacpan.org/source/$module->{author}/$module->{release}/$module->{path}"
+        );
+    die $res->status_line unless $res->is_success;
+    my $pod = $res->content;
+
     my $parser = Pod::Simple::XHTML->new();
 
     $parser->index( 1 );
@@ -28,14 +36,14 @@ sub convert {
     $parser->html_footer( '' );
     $parser->perldoc_url_prefix( '' );
     $parser->no_errata_section( 1 );
-    $parser->complain_stderr( 1 );
+    #$parser->complain_stderr( 1 );
 
     my $html = "";
     $parser->output_string( \$html );
     $parser->parse_string_document( $pod );
-    
+
     die "no content" if !$parser->content_seen;
-    
+
     return dump( $html );
 
 }

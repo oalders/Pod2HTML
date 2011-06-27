@@ -1,3 +1,5 @@
 plackup bin/app.pl
 
 http://localhost:5000/pod/DBIx::Class
+
+plackup -E deployment -s Starman --workers=10 -p 5000 -a bin/app.pl

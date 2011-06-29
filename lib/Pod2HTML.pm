@@ -1,6 +1,6 @@
 package Pod2HTML;
 use Dancer ':syntax';
-
+use Data::Dump qw( dump );
 use MetaCPAN::Pod;
 
 our $VERSION = '0.1';
@@ -14,6 +14,17 @@ get '/pod/:name' => sub {
     my $pod = MetaCPAN::Pod->new;
     
     return $pod->convert( params->{name} ); 
+
+};
+
+get '/podpath/**' => sub {
+
+    my @matches = splat;
+    my $path = join( "/", @{$matches[0]} );
+    #return $path;
+    my $pod = MetaCPAN::Pod->new;
+    
+    return $pod->convert( $path ); 
 
 };
 

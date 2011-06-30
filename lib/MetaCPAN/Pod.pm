@@ -29,6 +29,15 @@ sub convert {
         die $res->content . ' ' . $res->status_line;
     }
 
+    return $self->parse_pod( $res->content );
+
+}
+
+sub parse_pod {
+
+    my $self = shift;
+    my $content = shift;
+
     my $parser = MetaCPAN::Pod::XHTML->new();
 
     $parser->index( 1 );
@@ -42,8 +51,10 @@ sub convert {
     $parser->output_string( \$html );
     $parser->parse_string_document( $res->content );
 
-    die "no content" if !$parser->content_seen;
-
+    # i'm on the fence about whether to include Pod which contains no real
+    # valid Pod tags. there is usually something in there, though
+    warn "no content seen" if !$parser->content_seen;
+    die "nothing to see here" if $html !~ m{\w};
     return $html;
 
 }
@@ -57,7 +68,7 @@ sub local_pod {
     my $tar = undef;
     try { $tar = Archive::Tar->new( $file ) };
 
-    if ( $tar->error ) {
+    if ( $tar && $tar->error ) {
         say "*" x 30 . ' tar error: ' . $tar->error;
         return 0;
     }
@@ -71,12 +82,13 @@ sub local_pod {
 
 sub _build_mech {
     
-    return WWW::Mechanize->new;
-    my $folder = "$ENV{HOME}/tmp/pod2html";
+    my $self = shift;
+    my $folder = "$ENV{HOME}/tmp/pod2html/fastmmap";
     
-    my $cache = CHI->new(
-        driver   => 'File',
-        root_dir => $folder,
+    my $cache  = CHI->new(
+        driver     => 'FastMmap',
+        root_dir   => $folder,
+        cache_size => '500m'
     );
     
     my $mech = WWW::Mechanize::Cached->new( cache => $cache );

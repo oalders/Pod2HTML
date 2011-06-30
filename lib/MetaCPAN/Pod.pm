@@ -16,6 +16,7 @@ use WWW::Mechanize::Cached;
 
 has 'mech' => ( is => 'rw', lazy_build => 1 );
 has 'cpan' => ( is => 'rw', isa => 'Str', default => "$ENV{HOME}/minicpan" );
+has 'tar' => ( is => 'rw' );
 
 sub convert {
 
@@ -49,7 +50,7 @@ sub parse_pod {
 
     my $html = "";
     $parser->output_string( \$html );
-    $parser->parse_string_document( $res->content );
+    $parser->parse_string_document( $content );
 
     # i'm on the fence about whether to include Pod which contains no real
     # valid Pod tags. there is usually something in there, though
@@ -64,6 +65,27 @@ sub local_pod {
     my $self = shift;
     my ($author, $release, $path ) = @_;
     
+    my $tar = $self->build_tar( $author, $release );
+    return $self->pod_from_tar( $release, $path );
+  
+}
+
+sub pod_from_tar {
+    
+    my $self = shift;
+    my ($release, $path ) = @_;
+    
+    my $content = $self->tar->get_content( $release . '/' . $path );
+    my $parser = Pod::POM->new;
+    my $pom    = $parser->parse_text( $content );
+    return Pod::POM::View::Pod->print( $pom );
+    
+}
+
+sub build_tar {
+    my $self = shift;
+    my ( $author, $release ) = @_;
+    
     my $file = $self->author_dir( $author ) . '/' . $release . '.tar.gz';
     my $tar = undef;
     try { $tar = Archive::Tar->new( $file ) };
@@ -72,11 +94,9 @@ sub local_pod {
         say "*" x 30 . ' tar error: ' . $tar->error;
         return 0;
     }
+    $self->tar( $tar );
+    return $tar;
     
-    my $content = $tar->get_content( $release . '/' . $path );
-    my $parser = Pod::POM->new;
-    my $pom    = $parser->parse_text( $content );
-    return Pod::POM::View::Pod->print( $pom );
     
 }
 

@@ -78,6 +78,8 @@ sub pod_from_tar {
     my ( $release, $path ) = @_;
 
     my $content = $self->tar->get_content( $release . '/' . $path );
+    return if !$content;
+
     my $parser  = Pod::POM->new;
     my $pom     = $parser->parse_text( $content );
     return Pod::POM::View::Pod->print( $pom );
@@ -88,7 +90,15 @@ sub build_tar {
     my $self = shift;
     my ( $author, $release ) = @_;
 
-    my $file = $self->author_dir( $author ) . '/' . $release . '.tar.gz';
+    my $file = $self->author_dir( $author ) . '/' . $release;
+
+    foreach my $suffix ( '.tar.gz', '.tgz' ) {
+        if ( -e $file . $suffix ) {
+            $file .= $suffix;
+            last;
+        }
+    }
+
     my $tar  = undef;
     try { $tar = Archive::Tar->new( $file ) };
 

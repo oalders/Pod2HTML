@@ -28,6 +28,18 @@ get '/podpath/**' => sub {
 
 };
 
+get '/from_cache/**' => sub {
+
+    my @matches = splat;
+    my $path = join( "/", @{$matches[0]} );
+    my $pod = MetaCPAN::Pod->new;
+
+    return $pod->convert( $path ) if $pod->is_cached( $path );
+    status 'not_found';
+
+};
+
+
 true;
 
 =pod

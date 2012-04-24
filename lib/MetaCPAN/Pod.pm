@@ -38,6 +38,13 @@ sub convert {
 
 }
 
+sub is_cached {
+    my $self = shift;
+    my $name = shift;
+
+    return $self->mech->is_cached( $self->metacpan_url( $name ) );
+}
+
 sub parse_pod {
 
     my $self    = shift;

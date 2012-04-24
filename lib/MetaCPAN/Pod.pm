@@ -4,7 +4,6 @@ use Moose;
 
 use Archive::Tar;
 use CHI;
-use Data::Dump qw( dump );
 use Furl;
 use JSON;
 use MetaCPAN::Pod::XHTML;
@@ -18,14 +17,18 @@ has 'mech' => ( is => 'rw', lazy_build => 1 );
 has 'cpan' => ( is => 'rw', isa => 'Str', default => "$ENV{HOME}/minicpan" );
 has 'tar' => ( is => 'rw' );
 
+sub metacpan_url {
+    my $self = shift;
+    my $name = shift;
+    return "http://api.beta.metacpan.org/pod/$name?content-type=text/x-pod";
+}
+
 sub convert {
 
     my $self = shift;
     my $name = shift;
 
-    my $url
-        = "http://api.beta.metacpan.org/pod/$name?content-type=text/x-pod";
-    my $res = $self->mech->get( $url );
+    my $res = $self->mech->get( $self->metacpan_url( $name ) );
 
     if ( !$res->is_success ) {
         die $res->content . ' ' . $res->status_line;

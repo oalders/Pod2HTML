@@ -4,15 +4,13 @@ use Moose;
 
 extends 'Pod::Simple::XHTML';
 
-use Data::Dump qw( dump );
-
 sub start_L {
     my ( $self, $flags ) = @_;
     my ( $type, $to, $section ) = @{$flags}{ 'type', 'to', 'section' };
 
     my $file = $to;
     if ( $file ) {
-        $file =~ s{::}{-}g;
+        $file =~ s{::}{__}g;
         $file .= '.html';
     }
 
@@ -21,7 +19,7 @@ sub start_L {
         : $type eq 'pod' ? $self->resolve_pod_page_link( $file, $section )
         : $type eq 'man' ? $self->resolve_man_page_link( $to, $section )
         :                  undef;
-        
+
     my $pound = '#';
     my $class
         = ( $type eq 'pod' && ($url !~ m{$pound}) ) ? ' class="moduleLink"' : '';

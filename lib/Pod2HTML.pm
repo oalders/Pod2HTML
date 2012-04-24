@@ -12,8 +12,8 @@ get '/' => sub {
 get '/pod/:name' => sub {
 
     my $pod = MetaCPAN::Pod->new;
-    
-    return $pod->convert( params->{name} ); 
+
+    return $pod->convert( params->{name} );
 
 };
 
@@ -23,8 +23,8 @@ get '/podpath/**' => sub {
     my $path = join( "/", @{$matches[0]} );
     #return $path;
     my $pod = MetaCPAN::Pod->new;
-    
-    return $pod->convert( $path ); 
+
+    return $pod->convert( $path );
 
 };
 

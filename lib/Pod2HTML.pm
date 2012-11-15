@@ -1,6 +1,5 @@
 package Pod2HTML;
 use Dancer ':syntax';
-use Data::Dump qw( dump );
 use MetaCPAN::Pod;
 
 our $VERSION = '0.1';

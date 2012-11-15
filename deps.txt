@@ -1,0 +1,7 @@
+CPAN::Mini
+Dancer
+Furl
+Modern::Perl
+Plack
+Starman
+WWW::Mechanize::Cached

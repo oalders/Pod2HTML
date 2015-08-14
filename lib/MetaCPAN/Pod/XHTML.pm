@@ -1,6 +1,7 @@
 package MetaCPAN::Pod::XHTML;
 
 use Moose;
+use MooseX::NonMoose;
 
 extends 'Pod::Simple::XHTML';
 

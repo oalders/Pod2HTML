@@ -1,8 +1,10 @@
 requires 'CHI';
-requires 'Modern::Perl';
-requires 'Pod::POM';
-requires 'WWW::Mechanize::Cached';
 requires 'Dancer';
 requires 'Furl';
+requires 'JSON';
+requires 'Modern::Perl';
 requires 'Moose';
+requires 'MooseX::NonMoose';
+requires 'Pod::POM';
+requires 'WWW::Mechanize::Cached';
 requires 'YAML';

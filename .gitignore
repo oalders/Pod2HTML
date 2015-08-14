@@ -1,3 +1,5 @@
 .carton
-/logs
+cpanfile.snapshot
 local
+/logs
+.tidyall.d

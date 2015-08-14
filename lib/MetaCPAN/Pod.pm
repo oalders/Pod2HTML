@@ -20,11 +20,10 @@ has 'tar' => ( is => 'rw' );
 sub metacpan_url {
     my $self = shift;
     my $name = shift;
-    return "http://api.beta.metacpan.org/pod/$name?content-type=text/x-pod";
+    return "http://api.metacpan.org/pod/$name?content-type=text/x-pod";
 }
 
 sub convert {
-
     my $self = shift;
     my $name = shift;
 
@@ -35,7 +34,6 @@ sub convert {
     }
 
     return $self->parse_pod( $res->content );
-
 }
 
 sub is_cached {
@@ -46,7 +44,6 @@ sub is_cached {
 }
 
 sub parse_pod {
-
     my $self    = shift;
     my $content = shift;
 
@@ -69,21 +66,17 @@ sub parse_pod {
     warn "no content seen" if !$parser->content_seen;
     die "nothing to see here" if $html !~ m{\w};
     return $html;
-
 }
 
 sub local_pod {
-
     my $self = shift;
     my ( $author, $release, $path ) = @_;
 
     my $tar = $self->build_tar( $author, $release );
     return $self->pod_from_tar( $release, $path );
-
 }
 
 sub pod_from_tar {
-
     my $self = shift;
     my ( $release, $path ) = @_;
 
@@ -93,7 +86,6 @@ sub pod_from_tar {
     my $parser  = Pod::POM->new;
     my $pom     = $parser->parse_text( $content );
     return Pod::POM::View::Pod->print( $pom );
-
 }
 
 sub build_tar {
@@ -118,11 +110,9 @@ sub build_tar {
     }
     $self->tar( $tar );
     return $tar;
-
 }
 
 sub _build_mech {
-
     my $self   = shift;
     my $folder = "$ENV{HOME}/tmp/pod2html/fastmmap";
 
@@ -135,7 +125,6 @@ sub _build_mech {
     my $mech = WWW::Mechanize::Cached->new( cache => $cache );
     $mech->agent( "iCPAN Pod2HTML Cacher" );
     return $mech;
-
 }
 
 sub author_dir {
@@ -148,4 +137,5 @@ sub author_dir {
     return $self->cpan . '/' . $dir;
 }
 
+__PACKAGE__->meta->make_immutable;
 1;

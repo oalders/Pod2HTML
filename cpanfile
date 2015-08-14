@@ -1,3 +1,4 @@
+requires 'Cache::FastMmap';
 requires 'CHI';
 requires 'Dancer';
 requires 'Furl';

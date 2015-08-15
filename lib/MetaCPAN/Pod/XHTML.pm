@@ -10,7 +10,7 @@ sub start_L {
     my ( $type, $to, $section ) = @{$flags}{ 'type', 'to', 'section' };
 
     my $file = $to;
-    if ( $file ) {
+    if ($file) {
         $file =~ s{::}{__}g;
         $file .= '.html';
     }
@@ -23,7 +23,9 @@ sub start_L {
 
     my $pound = '#';
     my $class
-        = ( $type eq 'pod' && ($url !~ m{$pound}) ) ? ' class="moduleLink"' : '';
+        = ( $type eq 'pod' && ( $url !~ m{$pound} ) )
+        ? ' class="moduleLink"'
+        : '';
 
     $self->{'scratch'} .= qq[<a href="$url"$class>];
 

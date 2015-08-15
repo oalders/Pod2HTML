@@ -6,6 +6,7 @@ select = {bin,lib,t}/**/*.{pl,pm,t,psgi}
 ; argv = --severity 5 --verbose 11 --exclude=ValuesAndExpressions::ProhibitAccessOfPrivateData
 
 [SortLines::Naturally]
+select = cpanfile
 select = .gitignore
 
 [JSON]

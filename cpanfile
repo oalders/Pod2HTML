@@ -1,8 +1,11 @@
 requires 'Cache::FastMmap';
 requires 'CHI';
 requires 'Dancer';
+requires 'Data::Printer::Filter::JSON';
+requires 'Data::Printer::Filter::URI';
 requires 'Furl';
 requires 'JSON';
+requires 'LWP::ConsoleLogger';
 requires 'Modern::Perl';
 requires 'Moose';
 requires 'MooseX::NonMoose';
